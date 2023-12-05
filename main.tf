@@ -16,12 +16,12 @@ resource "azurerm_virtual_network" "example" {
   name                = "example-network"
   address_space       = ["10.0.0.0/16"]
   location            = "East US"
-  resource_group_name = "rg_sb_eastus_23714_1_170146507185"
+  resource_group_name = "rg_sb_eastus_23714_1_170180854523"
 }
 
 resource "azurerm_subnet" "example" {
   name                 = "internal"
-  resource_group_name  = "rg_sb_eastus_23714_1_170146507185"
+  resource_group_name  = "rg_sb_eastus_23714_1_170180854523"
   virtual_network_name = azurerm_virtual_network.example.name
   address_prefixes     = ["10.0.2.0/24"]
 }
@@ -29,7 +29,7 @@ resource "azurerm_subnet" "example" {
 resource "azurerm_network_interface" "example" {
   name                = "example-nic"
   location            = "East US"
-  resource_group_name = "rg_sb_eastus_23714_1_170146507185"
+  resource_group_name = "rg_sb_eastus_23714_1_170180854523"
 
   ip_configuration {
     name                          = "internal"
@@ -40,7 +40,7 @@ resource "azurerm_network_interface" "example" {
 
 resource "azurerm_linux_virtual_machine" "example" {
   name                = "vm-kevin"
-  resource_group_name = "rg_sb_eastus_23714_1_170146507185"
+  resource_group_name = "rg_sb_eastus_23714_1_170180854523"
   location            = "East US"
   size                = "standard_b1s"
   admin_username      = "adminuser"
@@ -63,5 +63,21 @@ resource "azurerm_linux_virtual_machine" "example" {
     offer     = "0001-com-ubuntu-server-jammy"
     sku       = "22_04-lts"
     version   = "latest"
+  }
+}
+
+resource "azurerm_resource_group" "example" {
+  name     = "example-resources"
+  location = "East US"
+}
+
+resource "azurerm_public_ip" "example" {
+  name                = "acceptanceTestPublicIp1"
+  resource_group_name = "rg_sb_eastus_23714_1_170180854523"
+  location            = "East US"
+  allocation_method   = "Static"
+
+  tags = {
+    environment = "Production"
   }
 }
